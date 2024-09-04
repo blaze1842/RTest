@@ -1,0 +1,78 @@
+---
+title: "RWorksheet_Compay#1.Rmd."
+author: "Gabriel A. Compay"
+date: "2024-09-04"
+output: pdf_document
+---
+```{r}
+age <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 37, 42, 53, 41, 51, 35, 24, 33, 41)
+
+length(age)
+
+num_points <- length(age)
+
+print(num_points)
+
+recip_age <- 1 / age
+
+print(recip_age)
+
+
+new_age <- c(age, 0, age)
+print(new_age)
+
+sorted_age <- sort(age)
+
+print(sorted_age)
+
+max_age <- max(age)
+
+print(paste("Maximum value:", max_age))
+```
+```{r}
+data <- c(2.4, 2.8, 2.1, 2.5, 2.4, 2.2, 2.5, 2.3, 2.5, 2.3, 2.4, 2.7)
+
+length(data)
+
+doubled_data <- data * 2
+doubled_data
+
+int_seq_1to100 <- 1:100
+int_seq_1to100
+
+num_seq20to60 <- 20:60
+num_seq20to60
+
+mean_20to60 <- mean(num_seq20to60)
+mean_20to60
+
+num_seq_51to91 <- (51:91)
+
+sum_51to91 <- sum(num_seq_51to91)
+sum_51to91
+
+int_seq_1to1000 <- 1:1000
+
+maxdata_points <- tail(int_seq_1to1000, 1000)
+maxdata_points
+```
+```{r}
+Filter(function(i) { all(i %% c(3,5,7) != 0) }, seq(100))
+```
+```{r}
+hundred <- 100:1
+hundred
+```
+```{r}
+limit <- 25
+
+numbers <-1:(limit - 1)
+
+multiple <- numbers[numbers %% 3 == 0 | numbers %% 5== 0]
+
+sum_multiple <- sum(multiple)
+
+print(multiple)
+print(sum_multiple)
+```
+```{r}
