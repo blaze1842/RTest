@@ -1,0 +1,119 @@
+```{r}
+# URL of the category page
+url <- 'https://www.amazon.com/Beauty-Makeup-Skin-Hair-Products/b?ie=UTF8&node=3760911'
+
+# Initialize the session with polite web scraping
+session <- bow(url, user_agent = "Educational")
+session
+
+# Read the HTML content of the page
+page <- read_html(url)
+
+# Extract Product Prices
+price <- page %>%
+  html_nodes('.a-price .a-offscreen') %>% 
+  html_text() %>%
+  gsub('[^0-9.]', '', .) %>%   # Remove non-numeric characters (e.g., '$', ',')
+  as.numeric()
+
+# Check the length of price to debug
+cat("Number of prices extracted:", length(price), "\n")
+
+# Extract Product Descriptions (Title in this case)
+description <- page %>% 
+  html_nodes('.s-title-instructions-style') %>%  # Extract titles of products
+  html_text()
+
+# Check the length of description to debug
+cat("Number of descriptions extracted:", length(description), "\n")
+
+# Extract Ratings
+ratings <- page %>%
+  html_nodes('span.a-icon-alt') %>%
+  html_text() %>%
+  gsub('[^0-9.]', '', .) %>%   # Clean non-numeric characters from ratings
+  as.numeric()
+
+# Check the length of ratings to debug
+cat("Number of ratings extracted:", length(ratings), "\n")
+
+# Extract Reviews Count
+reviews <- page %>%
+  html_nodes('#acrCustomerReviewText') %>%
+  html_text() %>%
+  gsub('[^0-9]', '', .) %>%    # Clean non-numeric characters from reviews count
+  as.numeric()
+
+# Check the length of reviews to debug
+cat("Number of reviews extracted:", length(reviews), "\n")
+
+# Handle cases where some data is missing
+# Ensure that all vectors have the same length (this is an example of basic handling, but you can improve it)
+min_length <- min(length(price), length(description), length(ratings), length(reviews))
+
+# Trim data to the minimum length to avoid mismatches
+price <- price[1:min_length]
+description <- description[1:min_length]
+ratings <- ratings[1:min_length]
+reviews <- reviews[1:min_length]
+
+# Combine the data into a data frame
+data <- data.frame(
+  Product = description,
+  Price = price,
+  Rating = ratings,
+  Reviews = reviews,
+  stringsAsFactors = FALSE
+)
+
+# Remove rows with NA values
+data <- data %>%
+  filter(!is.na(Price) & !is.na(Rating) & !is.na(Reviews))
+
+# View the first few rows of data
+head(data)
+
+
+```
+```{r}
+# Scatter Plot: Price vs Rating
+ggplot(data, aes(x = Price, y = Rating)) +
+  geom_point(color = "blue", size = 2) +
+  labs(title = "Price vs Rating for Beauty & Makeup Products", x = "Price (USD)", y = "Rating (out of 5)") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+```{r}
+# Boxplot: Price Distribution by Rating
+ggplot(data, aes(x = factor(Rating), y = Price)) +
+  geom_boxplot(fill = "skyblue", color = "blue") +
+  labs(title = "Price Distribution by Rating for Beauty Products", x = "Rating", y = "Price (USD)") +
+  theme_minimal()
+```
+```{r}
+# Bar Plot: Number of Reviews by Rating
+ggplot(data, aes(x = factor(Rating), y = Reviews, fill = factor(Rating))) +
+  geom_bar(stat = "identity") +
+  labs(title = "Number of Reviews by Rating for Beauty Products", x = "Rating", y = "Number of Reviews") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+```{r}
+
+# Rank products by price (Descending)
+data_sorted_by_price <- data %>%
+  arrange(desc(Price))
+
+# Show the top 10 products by price
+head(data_sorted_by_price, 10)
+```
+```{r}
+# Rank products by rating (Descending)
+data_sorted_by_rating <- data %>%
+  arrange(desc(Rating))
+
+# Show the top 10 products by rating
+head(data_sorted_by_rating, 10)
+
+```
