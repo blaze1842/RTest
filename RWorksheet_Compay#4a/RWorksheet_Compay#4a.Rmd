@@ -1,0 +1,188 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+1. The table below shows the data about shoe size and height. Create a data frame.
+```{r}
+shoe_size <- c(6.5, 9.0, 8.5, 8.5, 10.5, 7.0, 9.5, 9.0, 13.0, 7.5, 10.5, 8.5, 12.0, 10.5, 13.0, 11.5, 8.5, 5.0, 10.0, 6.5, 7.5, 8.5, 10.5, 8.5, 10.5, 11.0, 9.0, 13.0)
+height <-  c(66.0, 68.0, 64.5, 65.0, 70.0, 64.0, 70.0, 71.0, 72.0, 64.0, 74.5, 67.0, 71.0, 71.0, 77.0, 72.0, 59.0, 62.0, 72.0, 66.0, 64.0, 67.0, 73.0, 69.0, 72.0, 70.0, 69.0, 70.0)
+gender <- c("F", "F", "F", "F", "M", "F", "F", "F", "M", "F", "M", "F", "M", "M", "M", "M", "F", "F", "M", "F", "F", "M", "M", "F", "M", "M", "M", "M")
+
+frame1 <- data.frame(Shoesize = shoe_size, Height = height, Gender = gender)
+frame1
+```
+b. Create a subset by males and females with their corresponding shoe size and height.
+What its result? Show the R scripts.
+```{r}
+female <- subset(frame1, Gender == "F", select = c(Shoesize, Height))
+female
+
+male <- subset(frame1, Gender == "M", select = c(Shoesize, Height))
+male
+```
+c. Find the mean of shoe size and height of the respondents. Write the R scripts and its result.
+```{r}
+meanshoe <- mean(frame1$Shoesize)
+meanshoe
+
+meanheight <- mean(frame1$Height)
+meanheight
+```
+d. Is there a relationship between shoe size and height? Why?
+```{r}
+relation <- cor(frame1$Shoesize, frame1$Height)
+relation
+```
+2. Construct character vector months to a factor with factor() and assign the result to factor_months_vector. Print out factor_months_vector and assert that R prints out the factor levels below the actual values.
+```{r}
+months <- c("March", "April", "January", "November", "January", "September", "October", "September", "November", "August", "January", "November", "November", "February", "May", "August", "July", "December", "August", "August", "September", "November", "February", "April")
+
+fmonths <- factor(months)
+fmonths
+```
+3. Then check the summary() of the months_vector and factor_months_vector. Interpret the results of both vectors. Are they both equally useful in this case?
+```{r}
+smonths <- summary(months)
+sfmonths <- summary(fmonths)
+
+sfmonths
+smonths
+```
+4. Create a vector and factor for the table below.
+```{r}
+factor_data <- c(rep("East", 1), rep("West", 4), rep("North", 3))
+new_order_data <- factor(factor_data, levels = c("East", "West", "North"))
+
+new_order_data
+```
+5. Enter the data below in Excel with file name = import_march.csv
+a. Import the excel file into the Environment Pane using read.table() function. Write the code.
+b. View the data set. Write the R scripts and its result.
+```{r}
+data <- read.table("import_march.csv", header = TRUE, sep = ",")
+data
+```
+6. Full Search
+a. Create an R Program that allows the User to randomly select numbers from 1 to 50.
+Then display the chosen number. If the number is beyond the range of the selected choice,
+it will have to display a string “The number selected is beyond the range of 1 to 50”. If
+number 20 is inputted by the User, it will have to display “TRUE”, otherwise display the
+input number.
+```{r}
+
+exhaustive_search <- function() {
+  chosen_number <- as.integer(readline(prompt = "Select a number between 1 and 50: "))
+  
+  if (is.na(chosen_number)) {
+    cat("Please enter a valid number.\n")
+    return()
+  }
+  
+  cat("You selected:", chosen_number, "\n")
+  
+  if (chosen_number < 1 || chosen_number > 50) {
+    cat("The number selected is beyond the range of 1 to 50.\n")
+  } else if (chosen_number == 20) {
+    cat("TRUE\n")
+  } else {
+    cat(chosen_number)
+  }
+}
+
+exhaustive_search()
+
+
+```
+7. Change
+a. Write a function that prints the minimum number of bills that must be paid, given the
+price of the snack.
+Input: Price of snack (a random number divisible by 50) Output: Minimum number of bills
+needed to purchase a snack.
+```{r}
+min_bills <- function(price) {
+  bills <- c(1000, 500, 200, 100, 50)
+  count <- 0
+  
+  for (bill in bills) {
+    num_bills <- price %/% bill
+    count <- count + num_bills
+    price <- price %% bill
+  }
+  
+  return(count)
+}
+
+snack_price <- as.numeric(readline(prompt = "Enter the price of the snack (divisible by 50): "))
+
+if (!is.na(snack_price) && snack_price %% 50 == 0) {
+  cat("Minimum number of bills needed:", min_bills(snack_price), "\n")
+} else {
+  cat("Price must be a number divisible by 50.\n")
+}
+
+```
+8. The following is each student’s math score for one semester. Based on this, answer the
+following questions.
+a. Create a dataframe from the above table. Write the R codes and its output.
+```{r}
+
+name <- c("Annie","Thea","Steve","Hanna")
+grade1 <- c(85, 65, 75, 95)
+grade2 <- c(65, 75, 55, 75)
+grade3 <- c(85, 90, 80, 100)
+grade4 <- c(100, 90, 85, 90)
+
+grades <- data.frame(Name = name, Grade1 = grade1, Grade2 = grade2, Grade4 = grade4)
+grades
+
+
+```
+b. Without using the rowMean function, output the average score of students whose average math score over 90 points during the semester. write R code and its output.
+```{r}
+average_scores <- (grades$Grade1 + grades$Grade2 + grades$Grade3 + grades$Grade4) / 4
+students_above_90 <- grades[average_scores > 90, ]
+
+if (nrow(students_above_90) > 0) {
+    students_above_90_avg <- sum(average_scores[average_scores > 90]) / nrow(students_above_90)
+} else {
+    students_above_90_avg <- NA
+}
+
+students_above_90_avg
+```
+c. Without using the mean function, output as follows for the tests in which the average
+score was less than 80 out of 4 tests.
+```{r}
+name <- c("Annie", "Thea", "Steve", "Hanna")
+grade1 <- c(85, 65, 75, 95)
+grade2 <- c(65, 75, 55, 75)
+grade3 <- c(85, 90, 80, 100)
+grade4 <- c(100, 90, 85, 90)
+
+grades <- data.frame(Name = name, Grade1 = grade1, Grade2 = grade2, Grade3 = grade3, Grade4 = grade4)
+
+for (i in 1:nrow(grades)) {
+  test_avg <- (grades[i, 2] + grades[i, 3] + grades[i, 4] + grades[i, 5]) / 4
+  if (test_avg < 80) {
+    cat("Name:", grades$Name[i], "- Average Score:", test_avg, "\n")
+  }
+}
+
+```
+d. Without using the max function, output as follows for students whose highest score for
+a semester exceeds 90 points.
+```{r}
+for (i in 1:nrow(grades)) {
+  highest_score <- grades[i, 2]
+  for (j in 3:5) {
+    if (grades[i, j] > highest_score) {
+      highest_score <- grades[i, j]
+    }
+  }
+  if (highest_score > 90) {
+    cat("Name:", grades$Name[i], "- Highest Score:", highest_score, "\n")
+  }
+}
+
+```
