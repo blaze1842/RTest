@@ -1,0 +1,137 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+LETTERS
+letters
+# A.
+first_11 <- LETTERS[1:11]
+first_11
+```
+```{r}
+# B.
+odd_letters <- LETTERS[seq(1, length(LETTERS), by = 2)]
+odd_letters
+```
+```{r}
+# C.
+vowels <- LETTERS[c(1, 5, 9, 15, 21)]  # A, E, I, O, U
+vowels
+```
+```{r}
+# D.
+last_5_lowercase <- letters[22:26]
+last_5_lowercase
+```
+```{r}
+# E.
+lowercase <- letters[15:24]
+lowercase
+```
+```{r}
+# 2.
+# A.
+city <- c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban", "Samal Island", "Davao City")
+city
+```
+```{r}
+# B.
+temp <- c("42°c", "39°c", "34°c", "34°c", "30°c", "27°c")
+temp
+```
+```{r}
+# C.
+df <- data.frame(city = city, temp = temp)
+print(df)
+
+```
+```{r}
+# D.
+names(df) <- c("City", "Temperature")
+(df)
+# E.
+str(df)
+
+```
+```{r}
+# F.
+row_3 <- df[3, ]
+row_4 <- df[4, ]
+row_3
+row_4
+```
+```{r}
+highest_temp <- df[df$Temperature == max(df$Temperature), ]
+lowest_temp <- df[df$Temperature == min(df$Temperature), ]
+highest_temp
+lowest_temp
+```
+```{r}
+# 3.
+# A.
+matrix_data <- matrix(c(1:8, 11:14), nrow = 3, ncol = 4, byrow = TRUE)
+matrix_data
+```
+```{r}
+# B.
+matrix_multiplied <- matrix_data * 2
+matrix_multiplied
+```
+```{r}
+# C.
+row_2 <- matrix_data[2, ]
+row_2
+```
+```{r}
+# D.
+subset_columns <- matrix_data[1:2, 3:4]
+subset_columns
+```
+```{r}
+# E.
+columns_2_3 <- matrix_data[3, 2:3]
+columns_2_3
+```
+```{r}
+# F.
+column_4 <- matrix_data[, 4]
+column_4
+```
+```{r}
+# G.
+rownames(matrix_multiplied) <- c("one", "two", "three")
+colnames(matrix_multiplied) <- c("uno", "dos", "tres", "quatro")
+(matrix_multiplied)
+```
+```{r}
+# H.
+reshaped_matrix <- matrix(matrix_data, nrow = 6, ncol = 2)
+reshaped_matrix
+```
+```{r}
+# 4.
+# A.
+values <- c(1, 2, 3, 6, 7, 8, 9, 0, 3, 4, 5, 1)
+repeated_values <- rep(values, each = 2)
+
+
+array_3d <- array(repeated_values, dim = c(2, 4, 3))
+array_3d
+```
+```{r}
+# B.
+num_dimensions <- dim(array_3d)
+(length(num_dimensions))
+```
+```{r}
+# C.
+rownames(array_3d) <- letters[1:2]  # a, b
+colnames(array_3d) <- LETTERS[1:4]  # A, B, C, D
+
+dimnames(array_3d) <- list(rownames(array_3d), colnames(array_3d), 
+                            c("1st-Dimensional Array", "2nd-Dimensional Array", "3rd-Dimensional Array"))
+
+(array_3d)
+```
